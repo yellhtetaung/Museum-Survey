@@ -36,9 +36,10 @@ const Feedback = ({ navigation, route }) => {
           onChangeText={setSurvey}
           style={styles.input}
           placeholder="Enter Feedback"
-          multiline
-          textAlignVertical="top"
+          multiline={true}
+          scrollEnabled={true}
           numberOfLines={20}
+          textAlignVertical="top"
           cursorColor="#000"
         />
 
@@ -52,7 +53,7 @@ const Feedback = ({ navigation, route }) => {
           }}
         >
           <Button
-            title="Pervious"
+            title="back"
             style={{ marginHorizontal: 40 }}
             onPress={() => navigation.goBack()}
           />
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
 
   input: {
     width: "85%",
+    maxHeight: height / 1.8,
     borderWidth: 3,
     borderColor: "#4f46e5",
     backgroundColor: "#f1f5f9",

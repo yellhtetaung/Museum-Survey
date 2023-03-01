@@ -17,7 +17,7 @@ const Preview = ({ navigation, route }) => {
           padding: 30,
         }}
       >
-        <Card.FeaturedTitle style={{ color: "#000" }}>
+        <Card.FeaturedTitle style={{ color: "#000", textAlign: "center" }}>
           Person Infomation
         </Card.FeaturedTitle>
 
@@ -80,6 +80,8 @@ const Preview = ({ navigation, route }) => {
           <Text style={styles.cardText}>Country: </Text>
           <Text style={styles.cardText}>{person.country}</Text>
         </View>
+
+        <Card.Divider />
       </Card>
 
       <View
@@ -92,7 +94,7 @@ const Preview = ({ navigation, route }) => {
         }}
       >
         <Button
-          title="Pervious"
+          title="back"
           style={{ marginHorizontal: 40 }}
           onPress={() => navigation.goBack()}
         />

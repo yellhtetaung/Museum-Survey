@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import Button from "../components/Button";
+import Icon from "@expo/vector-icons/Ionicons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -40,26 +41,22 @@ const Capture = ({ navigation, route }) => {
       />
       <View
         style={{
+          width: "40%",
           height: height / 4,
           flexDirection: "row",
 
-          justifyContent: "center",
+          justifyContent: "space-between",
           alignItems: "center",
         }}
       >
+        <Button title="back" onPress={() => navigation.goBack()} />
         <Button
-          title="Pervious"
-          style={{ marginHorizontal: 40 }}
-          onPress={() => navigation.goBack()}
-        />
-        <Button
-          title="Take a photo"
-          style={{ marginHorizontal: 40 }}
+          title={<Icon name="camera" size={50} />}
+          style={{ borderRadius: 60, padding: 30 }}
           onPress={takePicture}
         />
         <Button
           title="Next"
-          style={{ marginHorizontal: 40 }}
           onPress={() => {
             if (image) {
               navigation.navigate("Preview", {

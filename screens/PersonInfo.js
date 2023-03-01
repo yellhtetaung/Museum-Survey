@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, createRef } from "react";
 import {
   StyleSheet,
   View,
@@ -17,6 +17,7 @@ const PersonInfo = ({ navigation }) => {
   const [person, setPerson] = useState();
   const [keyboard, setKeyboard] = useState(false);
 
+  // Text
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [orgnization, setOrgnization] = useState("");
@@ -33,6 +34,15 @@ const PersonInfo = ({ navigation }) => {
   const [errorAddress, setErrorAddress] = useState(false);
   const [errorCity, setErrorCity] = useState(false);
   const [errorCountry, setErrorCountry] = useState(false);
+
+  // Effect
+  const [nameColor, setNameColor] = useState("#000");
+  const [phoneColor, setPhoneColor] = useState("#000");
+  const [orgColor, setOrgColor] = useState("#000");
+  const [nrcColor, setNrcColor] = useState("#000");
+  const [addressColor, setAddressColor] = useState("#000");
+  const [cityColor, setCityColor] = useState("#000");
+  const [countryColor, setCountryColor] = useState("#000");
 
   useEffect(() => {
     if (person) {
@@ -76,14 +86,6 @@ const PersonInfo = ({ navigation }) => {
     }
   };
 
-  const focusMode = useCallback(() => {
-    setKeyboard(true);
-  }, [keyboard]);
-
-  const blurMode = useCallback(() => {
-    setKeyboard(false);
-  }, [keyboard]);
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
@@ -91,16 +93,23 @@ const PersonInfo = ({ navigation }) => {
         keyboardVerticalOffset={keyboard ? -height / 3 : -height}
         style={{ flex: 1 }}
       >
+        <StatusBar />
         <View style={styles.container}>
           <Input
             value={name}
             onChangeText={setName}
             label="Name"
-            labelStyle={{ color: "#000", fontSize: 17 }}
+            labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
             placeholder="Enter your Name"
-            containerStyle={{ width: "50%" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={{ width: "45%" }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              { borderBottomColor: nameColor },
+            ]}
             errorMessage={errorName ? "Required Name" : undefined}
+            autoCapitalize="words"
+            onFocus={() => setNameColor("#4f46e5")}
+            onBlur={() => setNameColor("#000")}
           />
 
           <Input
@@ -108,74 +117,117 @@ const PersonInfo = ({ navigation }) => {
             onChangeText={setPhone}
             inputMode="numeric"
             label="Phone Number"
-            labelStyle={{ color: "#000", fontSize: 17 }}
+            labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
             placeholder="Enter your Phone Number"
-            containerStyle={{ width: "50%" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={{ width: "45%" }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              { borderBottomColor: phoneColor },
+            ]}
             errorMessage={errorPhone ? "Required Phone Number" : undefined}
+            onFocus={() => setPhoneColor("#4f46e5")}
+            onBlur={() => setPhoneColor("#000")}
           />
 
           <Input
             value={orgnization}
             onChangeText={setOrgnization}
-            label="Orgnization / company"
-            labelStyle={{ color: "#000", fontSize: 17 }}
+            label="Orgnization / Company"
+            labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
             placeholder="Enter your Orgnization or Company"
-            containerStyle={{ width: "50%" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={{ width: "45%" }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              { borderBottomColor: orgColor },
+            ]}
             errorMessage={
               errorOrg ? "Required Orgnization or Company" : undefined
             }
+            autoCapitalize="words"
+            onFocus={() => setOrgColor("#4f46e5")}
+            onBlur={() => setOrgColor("#000")}
           />
 
           <Input
             value={nrc}
             onChangeText={setNrc}
             label="NRC"
-            labelStyle={{ color: "#000", fontSize: 17 }}
+            labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
             placeholder="Enter your NRC"
-            containerStyle={{ width: "50%" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={{ width: "45%" }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              { borderBottomColor: nrcColor },
+            ]}
             errorMessage={errorNrc ? "Required NRC" : undefined}
+            onFocus={() => setNrcColor("#4f46e5")}
+            onBlur={() => setNrcColor("#000")}
           />
 
           <Input
             value={address}
             onChangeText={setAddress}
             label="Address"
-            labelStyle={{ color: "#000", fontSize: 17 }}
+            labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
             placeholder="Enter your address"
-            containerStyle={{ width: "50%" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={{ width: "45%" }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              { borderBottomColor: addressColor },
+            ]}
             errorMessage={errorAddress ? "Required Address" : undefined}
-            onFocus={focusMode}
-            onBlur={blurMode}
+            onFocus={() => {
+              setKeyboard(true);
+              setAddressColor("#4f46e5");
+            }}
+            onBlur={() => {
+              setKeyboard(false);
+              setAddressColor("#000");
+            }}
           />
 
           <Input
             value={city}
             onChangeText={setCity}
             label="City"
-            labelStyle={{ color: "#000", fontSize: 17 }}
+            labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
             placeholder="Enter your city"
-            containerStyle={{ width: "50%" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={{ width: "45%" }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              { borderBottomColor: cityColor },
+            ]}
             errorMessage={errorCity ? "Required city" : undefined}
-            onFocus={focusMode}
-            onBlur={blurMode}
+            onFocus={() => {
+              setKeyboard(true);
+              setCityColor("#4f46e5");
+            }}
+            onBlur={() => {
+              setKeyboard(false);
+              setCityColor("#000");
+            }}
           />
 
           <Input
             value={country}
             onChangeText={setCountry}
             label="Country"
-            labelStyle={{ color: "#000", fontSize: 17 }}
+            labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
             placeholder="Enter your country"
-            containerStyle={{ width: "50%" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={{ width: "45%" }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              { borderBottomColor: countryColor },
+            ]}
             errorMessage={errorCountry ? "Required Country" : undefined}
-            onFocus={focusMode}
-            onBlur={blurMode}
+            onFocus={() => {
+              setKeyboard(true);
+              setCountryColor("#4f46e5");
+            }}
+            onBlur={() => {
+              setKeyboard(false);
+              setCountryColor("#000");
+            }}
           />
         </View>
 
@@ -189,7 +241,7 @@ const PersonInfo = ({ navigation }) => {
           }}
         >
           <Button
-            title="Pervious"
+            title="back"
             style={{ marginHorizontal: 40 }}
             onPress={() => navigation.goBack()}
           />
@@ -210,7 +262,7 @@ const styles = StyleSheet.create({
     height: height / 2,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
 
     padding: 20,
   },
@@ -218,11 +270,11 @@ const styles = StyleSheet.create({
   inputContainerStyle: {
     backgroundColor: "#cbd5e1",
     borderBottomWidth: 2,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
     elevation: 10,
 
     padding: 10,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
   },
 });
 
