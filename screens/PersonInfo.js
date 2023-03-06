@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
   Dimensions,
+  TextInput,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
-import { Input } from "@rneui/themed";
 import Button from "../components/Button";
 import { Picker } from "@react-native-picker/picker";
 
@@ -17,9 +19,14 @@ const { height } = Dimensions.get("window");
 const PersonInfo = ({ navigation }) => {
   const [person, setPerson] = useState();
   const [keyboard, setKeyboard] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(4);
 
   // NRC
-  const [selectNrcNumber, setSelectNrcNumber] = useState();
+  const [selectCountryNumber, setSelectCountryNumber] = useState("");
+  const [selectCountryCode, setSelectCountryCode] = useState("");
+  const [selectNrcNation, setSelectNrcNation] = useState("");
+  const [selectNrcNumber, setSelectNrcNumber] = useState("");
+
   const nrcNumberLists = [
     "၁",
     "၂",
@@ -36,7 +43,6 @@ const PersonInfo = ({ navigation }) => {
     "၁၃",
     "၁၄",
   ];
-  const nrcCityCode = ["ပခန"];
 
   // Text
   const [name, setName] = useState("");
@@ -51,25 +57,26 @@ const PersonInfo = ({ navigation }) => {
   const [errorName, setErrorName] = useState(false);
   const [errorPhone, setErrorPhone] = useState(false);
   const [errorOrg, setErrorOrg] = useState(false);
-  const [errorNrc, setErrorNrc] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
   const [errorCity, setErrorCity] = useState(false);
   const [errorCountry, setErrorCountry] = useState(false);
-
-  // Effect
-  const [nameColor, setNameColor] = useState("#000");
-  const [phoneColor, setPhoneColor] = useState("#000");
-  const [orgColor, setOrgColor] = useState("#000");
-  const [nrcColor, setNrcColor] = useState("#000");
-  const [addressColor, setAddressColor] = useState("#000");
-  const [cityColor, setCityColor] = useState("#000");
-  const [countryColor, setCountryColor] = useState("#000");
 
   useEffect(() => {
     if (person) {
       navigation.navigate("Feedback", { person });
     }
-  }, [person]);
+
+    setNrc(
+      `${selectCountryNumber}/${selectCountryCode}${selectNrcNation}-${selectNrcNumber}`
+    );
+  }, [
+    person,
+    nrc,
+    selectCountryNumber,
+    selectCountryCode,
+    selectNrcNation,
+    selectNrcNumber,
+  ]);
 
   const submitHandler = () => {
     if (name.trim().length < 3) {
@@ -78,8 +85,6 @@ const PersonInfo = ({ navigation }) => {
       setErrorPhone(true);
     } else if (orgnization.trim().length < 3) {
       setErrorOrg(true);
-    } else if (nrc.trim().length < 3) {
-      setErrorNrc(true);
     } else if (address.trim().length < 3) {
       setErrorCity(true);
     } else if (city.trim().length < 3) {
@@ -90,7 +95,6 @@ const PersonInfo = ({ navigation }) => {
       setErrorName(false);
       setErrorPhone(false);
       setErrorOrg(false);
-      setErrorNrc(false);
       setErrorAddress(false);
       setErrorCity(false);
       setErrorCountry(false);
@@ -104,8 +108,21 @@ const PersonInfo = ({ navigation }) => {
         country,
         id: Math.random().toString(),
       });
+      setName("");
+      setPhone("");
+      setOrgnization("");
+      setNrc("");
+      setAddress("");
+      setCity("");
+      setCountry("");
+      setSelectCountryCode("");
+      setSelectCountryNumber("");
+      setSelectNrcNation("");
+      setSelectNrcNumber("");
     }
   };
+
+  const [pickerDisable, setPickerDisable] = useState(true);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -114,184 +131,213 @@ const PersonInfo = ({ navigation }) => {
         <View style={styles.header}></View>
         <KeyboardAvoidingView
           behavior="position"
-          keyboardVerticalOffset={keyboard ? -height / 3.5 : -height}
+          keyboardVerticalOffset={keyboard ? -height / keyboardHeight : -height}
           style={{ flex: 1 }}
         >
           <View style={styles.container}>
-            <Input
-              value={name}
-              onChangeText={setName}
-              label="Name"
-              labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
-              placeholder="Enter your Name"
-              containerStyle={{ width: "45%" }}
-              inputContainerStyle={[
-                styles.inputContainerStyle,
-                { borderBottomColor: nameColor },
-              ]}
-              errorMessage={errorName ? "Required Name" : undefined}
-              autoCapitalize="words"
-              onFocus={() => setNameColor("#4f46e5")}
-              onBlur={() => setNameColor("#000")}
-            />
-
-            <Input
-              value={phone}
-              onChangeText={setPhone}
-              inputMode="numeric"
-              label="Phone Number"
-              labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
-              placeholder="Enter your Phone Number"
-              containerStyle={{ width: "45%" }}
-              inputContainerStyle={[
-                styles.inputContainerStyle,
-                { borderBottomColor: phoneColor },
-              ]}
-              errorMessage={errorPhone ? "Required Phone Number" : undefined}
-              onFocus={() => setPhoneColor("#4f46e5")}
-              onBlur={() => setPhoneColor("#000")}
-            />
-
-            <Input
-              value={orgnization}
-              onChangeText={setOrgnization}
-              label="Orgnization / Company"
-              labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
-              placeholder="Enter your Orgnization or Company"
-              containerStyle={{ width: "45%" }}
-              inputContainerStyle={[
-                styles.inputContainerStyle,
-                { borderBottomColor: orgColor },
-              ]}
-              errorMessage={
-                errorOrg ? "Required Orgnization or Company" : undefined
-              }
-              autoCapitalize="words"
-              onFocus={() => setOrgColor("#4f46e5")}
-              onBlur={() => setOrgColor("#000")}
-            />
-
-            <View
-              style={{
-                width: "45%",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Input
-                value={nrc}
-                onChangeText={setNrc}
-                label="NRC"
-                labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
-                placeholder="Enter your NRC"
-                inputContainerStyle={[
+            <View style={styles.inputBox}>
+              <Text style={styles.label}>Name</Text>
+              <TextInput
+                value={name}
+                onChangeText={setName}
+                style={[
                   styles.inputContainerStyle,
-                  { borderBottomColor: nrcColor },
+                  { borderBottomColor: errorName ? "red" : undefined },
                 ]}
-                leftIcon={
-                  <Picker
-                    mode="dropdown"
-                    selectedValue={selectNrcNumber}
-                    onValueChange={(item) => {
-                      setSelectNrcNumber(item);
-                    }}
-                    style={{
-                      width: 100,
-                    }}
-                  >
-                    {nrcNumberLists.map((item, index) => {
-                      return (
-                        <Picker.Item key={index} label={item} value={item} />
-                      );
-                    })}
-                  </Picker>
-                }
-                errorMessage={errorNrc ? "Required NRC" : undefined}
-                onFocus={() => setNrcColor("#4f46e5")}
-                onBlur={() => setNrcColor("#000")}
+                placeholder="Enter Name"
               />
             </View>
 
-            <Input
-              value={address}
-              onChangeText={setAddress}
-              label="Address"
-              labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
-              placeholder="Enter your address"
-              containerStyle={{ width: "45%" }}
-              inputContainerStyle={[
-                styles.inputContainerStyle,
-                { borderBottomColor: addressColor },
-              ]}
-              errorMessage={errorAddress ? "Required Address" : undefined}
-              onFocus={() => {
-                setKeyboard(true);
-                setAddressColor("#4f46e5");
-              }}
-              onBlur={() => {
-                setKeyboard(false);
-                setAddressColor("#000");
-              }}
-            />
+            <View style={styles.inputBox}>
+              <Text style={styles.label}>Phone Number</Text>
+              <TextInput
+                value={phone}
+                onChangeText={setPhone}
+                style={[
+                  styles.inputContainerStyle,
+                  { borderBottomColor: errorPhone ? "red" : undefined },
+                ]}
+                placeholder="Enter Phone Number"
+                keyboardType="numeric"
+              />
+            </View>
 
-            <Input
-              value={city}
-              onChangeText={setCity}
-              label="City"
-              labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
-              placeholder="Enter your city"
-              containerStyle={{ width: "45%" }}
-              inputContainerStyle={[
-                styles.inputContainerStyle,
-                { borderBottomColor: cityColor },
-              ]}
-              errorMessage={errorCity ? "Required city" : undefined}
-              onFocus={() => {
-                setKeyboard(true);
-                setCityColor("#4f46e5");
-              }}
-              onBlur={() => {
-                setKeyboard(false);
-                setCityColor("#000");
-              }}
-            />
+            <View style={styles.inputBox}>
+              <Text style={styles.label}>Organization / Company</Text>
+              <TextInput
+                value={orgnization}
+                onChangeText={setOrgnization}
+                style={[
+                  styles.inputContainerStyle,
+                  { borderBottomColor: errorOrg ? "red" : undefined },
+                ]}
+                placeholder="Enter Organization or Company"
+                onFocus={() => {
+                  setKeyboard(true);
+                  setKeyboardHeight(2.3);
+                }}
+                onBlur={() => {
+                  setKeyboard(false);
+                  setKeyboardHeight(4);
+                }}
+              />
+            </View>
 
-            <Input
-              value={country}
-              onChangeText={setCountry}
-              label="Country"
-              labelStyle={{ color: "#000", fontSize: 17, marginBottom: 5 }}
-              placeholder="Enter your country"
-              containerStyle={{ width: "45%" }}
-              inputContainerStyle={[
-                styles.inputContainerStyle,
-                { borderBottomColor: countryColor },
-              ]}
-              errorMessage={errorCountry ? "Required Country" : undefined}
-              onFocus={() => {
-                setKeyboard(true);
-                setCountryColor("#4f46e5");
-              }}
-              onBlur={() => {
-                setKeyboard(false);
-                setCountryColor("#000");
-              }}
-            />
+            <View style={styles.inputBox}>
+              <Text style={styles.label}>NRC</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Picker
+                  mode="dropdown"
+                  selectedValue={selectCountryNumber}
+                  onValueChange={(item) => setSelectCountryNumber(item)}
+                  style={{
+                    width: "28%",
+                    backgroundColor: "#e9e9e9",
+                  }}
+                  onFocus={() => setPickerDisable(false)}
+                  onBlur={() => setPickerDisable(true)}
+                >
+                  <Picker.Item
+                    label="ရွေးပါ"
+                    value={false}
+                    enabled={pickerDisable}
+                  />
+                  {nrcNumberLists.map((item, index) => {
+                    return (
+                      <Picker.Item key={index} label={item} value={item} />
+                    );
+                  })}
+                </Picker>
+                <TextInput
+                  value={selectCountryCode}
+                  onChangeText={setSelectCountryCode}
+                  style={[
+                    styles.inputContainerStyle,
+                    { marginStart: 5, width: "20%" },
+                  ]}
+                  placeholder="ပခန"
+                  onFocus={() => {
+                    setKeyboard(true);
+                    setKeyboardHeight(2.3);
+                  }}
+                  onBlur={() => {
+                    setKeyboard(false);
+                    setKeyboardHeight(4);
+                  }}
+                />
+
+                <Picker
+                  mode="dropdwon"
+                  selectedValue={selectNrcNation}
+                  onValueChange={(item) => setSelectNrcNation(item)}
+                  style={{
+                    width: "28%",
+                    backgroundColor: "#e9e9e9",
+                    marginStart: 5,
+                  }}
+                  onFocus={() => setPickerDisable(false)}
+                  onBlur={() => setPickerDisable(true)}
+                >
+                  <Picker.Item
+                    label="ရွေးပါ"
+                    value={false}
+                    enabled={pickerDisable}
+                  />
+                  <Picker.Item label="(နိုင်)" value="(နိုင်)" />
+                  <Picker.Item label="(ဧည့်)" value="(ဧည့်)" />
+                </Picker>
+                <TextInput
+                  value={selectNrcNumber}
+                  onChangeText={setSelectNrcNumber}
+                  style={[
+                    styles.inputContainerStyle,
+                    { marginStart: 5, width: "20%" },
+                  ]}
+                  placeholder="၁၂၃၄၅၆"
+                  onFocus={() => {
+                    setKeyboard(true);
+                    setKeyboardHeight(2.15);
+                  }}
+                  onBlur={() => {
+                    setKeyboard(false);
+                    setKeyboardHeight(4);
+                  }}
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputBox}>
+              <Text style={styles.label}>Address</Text>
+              <TextInput
+                value={address}
+                onChangeText={setAddress}
+                style={[
+                  styles.inputContainerStyle,
+                  { borderBottomColor: errorAddress ? "red" : undefined },
+                ]}
+                placeholder="Enter Address"
+                onFocus={() => {
+                  setKeyboard(true);
+                  setKeyboardHeight(3.5);
+                }}
+                onBlur={() => {
+                  setKeyboard(false);
+                  setKeyboardHeight(4);
+                }}
+              />
+            </View>
+
+            <View style={styles.inputBox}>
+              <Text style={styles.label}>City</Text>
+              <TextInput
+                value={city}
+                onChangeText={setCity}
+                style={[
+                  styles.inputContainerStyle,
+                  { borderBottomColor: errorCity ? "red" : undefined },
+                ]}
+                placeholder="Enter City"
+                onFocus={() => {
+                  setKeyboard(true);
+                  setKeyboardHeight(3.5);
+                }}
+                onBlur={() => {
+                  setKeyboard(false);
+                  setKeyboardHeight(4);
+                }}
+              />
+            </View>
+
+            <View style={styles.inputBox}>
+              <Text style={styles.label}>Country</Text>
+              <TextInput
+                value={country}
+                onChangeText={setCountry}
+                style={[
+                  styles.inputContainerStyle,
+                  { borderBottomColor: errorCountry ? "red" : undefined },
+                ]}
+                placeholder="Enter Country"
+                onFocus={() => {
+                  setKeyboard(true);
+                  setKeyboardHeight(7);
+                }}
+                onBlur={() => {
+                  setKeyboard(false);
+                  setKeyboardHeight(4);
+                }}
+              />
+            </View>
           </View>
           <View
             style={{
-              height: height / 3,
+              height: height / 4,
               flexDirection: "row",
 
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Button
-              title="back"
-              style={{ marginHorizontal: 40 }}
-              onPress={() => navigation.goBack()}
-            />
             <Button
               title="Next"
               style={{ marginHorizontal: 40 }}
@@ -306,8 +352,6 @@ const PersonInfo = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: height / 2,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
@@ -322,14 +366,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
+  inputBox: {
+    width: "45%",
+    height: 70,
+    justifyContent: "space-between",
+    margin: 5,
+  },
+
   inputContainerStyle: {
     backgroundColor: "#e3e3e3",
     borderBottomWidth: 2,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    elevation: 10,
 
-    padding: 10,
+    padding: 5,
+    paddingHorizontal: 10,
   },
 });
 

@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#bdbdbd",
     justifyContent: "center",
-    // paddingHorizontal: 5,
   },
 
   content: {
@@ -31,12 +30,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#f4f4f4",
     justifyContent: "space-around",
     alignItems: "center",
-    // borderRadius: 30,
-    // elevation: 30,
   },
 
   title: {
-    fontSize: 90,
+    fontSize: 70,
     fontWeight: "bold",
     letterSpacing: 10,
     textTransform: "uppercase",

@@ -1,7 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Card, Text } from "@rneui/themed";
-import Button from "../components/Button";
 
 const Preview = ({ navigation, route }) => {
   const person = route.params.person;
@@ -10,11 +9,11 @@ const Preview = ({ navigation, route }) => {
     <View style={styles.container}>
       <Card
         containerStyle={{
-          width: "35%",
+          width: "30%",
           borderRadius: 20,
           elevation: 10,
-
-          padding: 30,
+          padding: 20,
+          paddingVertical: 25,
         }}
       >
         <Card.FeaturedTitle
@@ -25,6 +24,7 @@ const Preview = ({ navigation, route }) => {
           <Text
             style={{
               color: "#000",
+              fontSize: 18,
               fontFamily: "black",
             }}
           >
@@ -39,14 +39,14 @@ const Preview = ({ navigation, route }) => {
             alignItems: "center",
             borderBottomWidth: 1,
             borderTopWidth: 1,
-            paddingVertical: 15,
+            paddingVertical: 5,
           }}
         >
           <Card.Image
             source={{ uri: route.params.image }}
             style={{
-              width: 200,
-              height: 200,
+              width: 150,
+              height: 150,
               borderRadius: 20,
             }}
           />
@@ -96,12 +96,12 @@ const Preview = ({ navigation, route }) => {
           alignItems: "center",
         }}
       >
-        <Button
-          title="back"
-          style={{ marginHorizontal: 40 }}
-          onPress={() => navigation.goBack()}
-        />
-        <Button title="Submit" style={{ marginHorizontal: 40 }} />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("PersonInfo")}
+        >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -119,18 +119,31 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderBottomWidth: 1,
-    paddingVertical: 8,
+    paddingVertical: 3,
   },
 
   cardText: {
     width: "40%",
-    fontSize: 20,
     fontFamily: "bold",
   },
 
   cardText2: {
     width: "60%",
-    fontSize: 18,
+  },
+
+  button: {
+    backgroundColor: "#444",
+    borderRadius: 10,
+    elevation: 10,
+
+    padding: 15,
+  },
+
+  buttonText: {
+    color: "#FFF",
+    fontWeight: "700",
+    letterSpacing: 3,
+    textTransform: "uppercase",
   },
 });
 
