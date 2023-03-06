@@ -6,11 +6,14 @@ const GetStarted = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar />
-      <Text style={styles.title}>Museum Survey</Text>
-      <Button
-        title="Get Started"
-        onPress={() => navigation.navigate("PersonInfo")}
-      />
+
+      <View style={styles.content}>
+        <Text style={styles.title}>Museum Survey</Text>
+        <Button
+          title="Get Started"
+          onPress={() => navigation.navigate("PersonInfo")}
+        />
+      </View>
     </View>
   );
 };
@@ -18,8 +21,18 @@ const GetStarted = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#bdbdbd",
+    justifyContent: "center",
+    // paddingHorizontal: 5,
+  },
+
+  content: {
+    flex: 0.75,
+    backgroundColor: "#f4f4f4",
     justifyContent: "space-around",
     alignItems: "center",
+    // borderRadius: 30,
+    // elevation: 30,
   },
 
   title: {

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useFonts } from "expo-font";
 
 import GetStarted from "./screens/GetStarted";
 import PersonInfo from "./screens/PersonInfo";
@@ -11,6 +12,24 @@ import Preview from "./screens/Preview";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    medium: require("./assets/fonts/PlayfairDisplay-Medium.ttf"),
+    regular: require("./assets/fonts/PlayfairDisplay-Regular.ttf"),
+    semibold: require("./assets/fonts/PlayfairDisplay-SemiBold.ttf"),
+    bold: require("./assets/fonts/PlayfairDisplay-Bold.ttf"),
+    black: require("./assets/fonts/PlayfairDisplay-Black.ttf"),
+  });
+
+  const onLayoutView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator

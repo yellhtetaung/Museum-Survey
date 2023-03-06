@@ -17,17 +17,29 @@ const Preview = ({ navigation, route }) => {
           padding: 30,
         }}
       >
-        <Card.FeaturedTitle style={{ color: "#000", textAlign: "center" }}>
-          Person Infomation
+        <Card.FeaturedTitle
+          style={{
+            textAlign: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: "#000",
+              fontFamily: "black",
+            }}
+          >
+            Personal Information
+          </Text>
         </Card.FeaturedTitle>
 
-        <Card.Divider />
         <View
           style={{
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
-            marginVertical: 10,
+            borderBottomWidth: 1,
+            borderTopWidth: 1,
+            paddingVertical: 15,
           }}
         >
           <Card.Image
@@ -35,60 +47,51 @@ const Preview = ({ navigation, route }) => {
             style={{
               width: 200,
               height: 200,
+              borderRadius: 20,
             }}
           />
         </View>
-        <Card.Divider />
 
         <View style={styles.cardBody}>
           <Text style={styles.cardText}>Name: </Text>
-          <Text style={styles.cardText}>{person.name}</Text>
+          <Text style={styles.cardText2}>{person.name}</Text>
         </View>
-        <Card.Divider />
 
         <View style={styles.cardBody}>
           <Text style={styles.cardText}>Phone: </Text>
-          <Text style={styles.cardText}>{person.phone}</Text>
+          <Text style={styles.cardText2}>{person.phone}</Text>
         </View>
-        <Card.Divider />
 
         <View style={styles.cardBody}>
           <Text style={styles.cardText}>Orgnization: </Text>
-          <Text style={styles.cardText}>{person.orgnization}</Text>
+          <Text style={styles.cardText2}>{person.orgnization}</Text>
         </View>
-        <Card.Divider />
 
         <View style={styles.cardBody}>
           <Text style={styles.cardText}>NRC: </Text>
-          <Text style={styles.cardText}>{person.nrc}</Text>
+          <Text style={styles.cardText2}>{person.nrc}</Text>
         </View>
 
-        <Card.Divider />
         <View style={styles.cardBody}>
           <Text style={styles.cardText}>Address: </Text>
-          <Text style={styles.cardText}>{person.address}</Text>
+          <Text style={styles.cardText2}>{person.address}</Text>
         </View>
 
-        <Card.Divider />
         <View style={styles.cardBody}>
           <Text style={styles.cardText}>City: </Text>
-          <Text style={styles.cardText}>{person.city}</Text>
+          <Text style={styles.cardText2}>{person.city}</Text>
         </View>
 
-        <Card.Divider />
         <View style={styles.cardBody}>
           <Text style={styles.cardText}>Country: </Text>
-          <Text style={styles.cardText}>{person.country}</Text>
+          <Text style={styles.cardText2}>{person.country}</Text>
         </View>
-
-        <Card.Divider />
       </Card>
 
       <View
         style={{
           flex: 1,
           flexDirection: "row",
-
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -115,11 +118,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    borderBottomWidth: 1,
+    paddingVertical: 8,
   },
 
   cardText: {
+    width: "40%",
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "bold",
+  },
+
+  cardText2: {
+    width: "60%",
+    fontSize: 18,
   },
 });
 

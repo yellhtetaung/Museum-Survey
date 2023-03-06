@@ -30,38 +30,41 @@ const Feedback = ({ navigation, route }) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <TextInput
-          value={survey}
-          onChangeText={setSurvey}
-          style={styles.input}
-          placeholder="Enter Feedback"
-          multiline={true}
-          scrollEnabled={true}
-          numberOfLines={20}
-          textAlignVertical="top"
-          cursorColor="#000"
-        />
-
-        <View
-          style={{
-            height: height / 4,
-            flexDirection: "row",
-
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            title="back"
-            style={{ marginHorizontal: 40 }}
-            onPress={() => navigation.goBack()}
+      <View style={{ flex: 1 }}>
+        <View style={styles.header}></View>
+        <View style={styles.container}>
+          <TextInput
+            value={survey}
+            onChangeText={setSurvey}
+            style={styles.input}
+            placeholder="Enter Feedback"
+            multiline={true}
+            scrollEnabled={true}
+            numberOfLines={20}
+            textAlignVertical="top"
+            cursorColor="#000"
           />
-          <Button
-            title="Next"
-            style={{ marginHorizontal: 40 }}
-            onPress={submitHandler}
-          />
+
+          <View
+            style={{
+              height: height / 4,
+              flexDirection: "row",
+
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              title="back"
+              style={{ marginHorizontal: 40 }}
+              onPress={() => navigation.goBack()}
+            />
+            <Button
+              title="Next"
+              style={{ marginHorizontal: 40 }}
+              onPress={submitHandler}
+            />
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -73,16 +76,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
+  },
 
-    marginTop: 20,
+  header: {
+    width: "100%",
+    height: 60,
+    backgroundColor: "#bdbdbd",
+    zIndex: 100,
+
+    marginBottom: 20,
   },
 
   input: {
     width: "85%",
     maxHeight: height / 1.8,
     borderWidth: 3,
-    borderColor: "#4f46e5",
-    backgroundColor: "#f1f5f9",
+    borderColor: "#000",
+    backgroundColor: "#e0e0e0",
     borderRadius: 10,
     fontSize: 18,
     elevation: 10,
